@@ -6,5 +6,8 @@ public class main {
         Deck deck = new Deck();
         deck.create();
         deck.see();
+        deck.shuffle();
+        System.out.println();
+        deck.see();
     }
 }
