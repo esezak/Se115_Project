@@ -10,7 +10,7 @@ public class Deck {
     private Card[] deck = new Card[52];
     public void see(){
         for(int i=0; i<deck.length;i++){
-            System.out.print(deck[i].getNumber()+deck[i].getSymbol()+" ,");//print i card number + symbol (untested)
+            System.out.print(deck[i].getNumber()+deck[i].getSymbol()+" ,");//print i card number + symbol
         }
     }
     public void create(){
