@@ -8,38 +8,40 @@ Clubs[3]: 1,2,3,4,5,6,7,8,9,10, Jack(11), queen(12), king(13)♣
 */
 import java.util.Random;
 public class Deck {
-    private Card[] deck = new Card[52];
+    private Card[] deck = new Card[52];//a deck of cards
     public void see(){
         for(int i=0; i<deck.length;i++){
             System.out.print(deck[i].getNumber()+deck[i].getSymbol()+" ,");//print i card number + symbol
         }
-    }
-    public void create(){
+    }//see what is inside the deck (for debug)
+
+    public void create(){//create an unshuffled deck
         for(int i = 0; i<deck.length;i++){
-            Card temp = new Card();
-            if(i<13){
+            Card temp = new Card(); // temp object for assigning to Card[]
+            if(i<13){//first 13
                 temp.setNumber(i+1);
                 temp.setSymbol("♠");
                 deck[i]=temp;
             }
-            else if(i<26){
+            else if(i<26){//second 13
                 temp.setNumber((i%13)+1);
                 temp.setSymbol("♥");
                 deck[i]=temp;
             }
-            else if(i<39){
+            else if(i<39){//third 13
                 temp.setNumber((i%13)+1);
                 temp.setSymbol("♦");
                 deck[i]=temp;
             }
-            else{
+            else{//forth 13
                 temp.setNumber((i%13)+1);
                 temp.setSymbol("♣");
                 deck[i]=temp;
             }
         }
-    }
-    public void shuffle() {//Fisher-Yates Algorithm
+    }//create an unshuffled deck
+
+    public void shuffle() {//Fisher-Yates Algorithm (New version)
         Random r = new Random();
         int random;
         for(int i = deck.length-1; i>0;i--){
@@ -50,5 +52,16 @@ public class Deck {
             deck[i]=temp;
         }
     }//choose swap decrement
-    public void cut(){}
+
+    public void cut(int a){
+        Card[] tempdeck = new Card[52];
+        int j=0;    // a variable to store where we last are
+        for(int i=a; i< deck.length;i++ ){
+            tempdeck[j]=deck[i];j++;//take 52-a cards move them to front
+        }
+        for(int i=0;i<a;i++){
+            tempdeck[j]=deck[i];j++;//insert the remaining cards to where we left off
+        }
+        System.arraycopy(tempdeck, 0, deck, 0, deck.length); //arraycopy
+    }
 }

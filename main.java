@@ -9,5 +9,9 @@ public class main {
         deck.shuffle();
         System.out.println();
         deck.see();
+        deck.cut(26);
+        System.out.println();
+        deck.see();
+
     }
 }
