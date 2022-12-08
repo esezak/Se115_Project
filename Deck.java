@@ -9,6 +9,7 @@ Clubs[3]: 1,2,3,4,5,6,7,8,9,10, Jack(11), queen(12), king(13)♣
 import java.util.Random;
 public class Deck {
     private Card[] deck = new Card[52];//a deck of cards
+    private int topcard;
     public void see(){
         for(int i=0; i<deck.length;i++){
             System.out.print(deck[i].getCard()+", ");//see what is inside the deck
@@ -16,6 +17,7 @@ public class Deck {
     }//see what is inside the deck (for debug)
 
     public void create(){//create an unshuffled deck
+        topcard =0;
         for(int i = 0; i<deck.length;i++){
             Card temp = new Card(); // temp object for assigning to Card[]
             if(i<13){//first 13
@@ -52,7 +54,6 @@ public class Deck {
             deck[i]=temp;
         }
     }//choose swap decrement
-
     public void cut(int a){
         Card[] tempdeck = new Card[52];
         int j=0;    // a variable to store where we last are
@@ -64,4 +65,9 @@ public class Deck {
         }
         System.arraycopy(tempdeck, 0, deck, 0, deck.length); //arraycopy
     }
+    public void addToTopCard(int a){
+        topcard += a;
+    }
+    public int getTopcard(){return topcard;}
+    public Card getCard(int a){return deck[a];}
 }

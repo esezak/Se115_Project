@@ -4,6 +4,8 @@ public class main {
         //System.out.println("Symbol test: ♠, ♣,♥, ♦");
         System.out.println("Welcome to Pişti!");
         Deck deck = new Deck();
+        Hand player = new Hand();
+        Hand enemy = new Hand();
         deck.create();
         deck.see();
         deck.shuffle();
@@ -12,6 +14,11 @@ public class main {
         deck.cut(26);
         System.out.println();
         deck.see();
-
+        player.fillHand(deck);
+        System.out.println("\n"+deck.getTopcard());
+        player.see();
+        enemy.fillHand(deck);
+        System.out.println("\n"+deck.getTopcard());
+        enemy.see();
     }
 }
