@@ -11,7 +11,7 @@ public class Deck {
     private Card[] deck = new Card[52];//a deck of cards
     public void see(){
         for(int i=0; i<deck.length;i++){
-            System.out.print(deck[i].getNumber()+deck[i].getSymbol()+" ,");//print i card number + symbol
+            System.out.print(deck[i].getCard()+", ");//see what is inside the deck
         }
     }//see what is inside the deck (for debug)
 
