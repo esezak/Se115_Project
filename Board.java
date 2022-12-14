@@ -1,5 +1,6 @@
 public class Board {
     private Card[] board = new Card[52];
+    private int numberOfCards;
     private int topindex=0;
     public void startBoard(Deck deck){
         Card empty = new Card();
@@ -16,6 +17,7 @@ public class Board {
         }
         deck.addToTopCard(-1);
         topindex=3;
+        numberOfCards=4;
     }
     public void seeBoard(){
         for(int i=0;i< board.length;i++){
