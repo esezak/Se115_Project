@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 public class Hand {
     private Card[] hand = new Card[4];
+    private int point;
     public void see(){
         for(int i=0; i< hand.length;i++){
             Card temp = new Card();
@@ -30,4 +31,6 @@ public class Hand {
         temp.setSymbol("0");
         hand[index]=temp;
     }
+    public void adToPoint(int point){this.point +=point;}
+    public int getPoint(){return point;}
 }
