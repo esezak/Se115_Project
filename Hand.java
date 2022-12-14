@@ -31,6 +31,9 @@ public class Hand {
         temp.setSymbol("0");
         hand[index]=temp;
     }
-    public void adToPoint(int point){this.point +=point;}
+    public void addToPoint(int point){this.point +=point;}
     public int getPoint(){return point;}
+    public int selectedCardNum(int input){//for comparison with the card on deck
+        return hand[input].getNumber();
+    }
 }

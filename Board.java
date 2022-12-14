@@ -36,9 +36,9 @@ public class Board {
         for(int i=0; i< board.length;i++){
             board[i]=empty;
         }
-        topindex =-1;// -1 since we increment topindex before adding a card
+        topindex =0;
     }
     //topindex+1 is the number of cards on the board
     public int getTopindex(){return topindex+1;}
-    public String getTopCard(){ return board[topindex].getCard();}
+    public int getTopCardNum(){ return board[topindex].getNumber();}
 }
