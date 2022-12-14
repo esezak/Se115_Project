@@ -14,11 +14,12 @@ public class main {
         deck.cut(26);
         System.out.println();
         deck.see();
-        player.fillHand(deck);
-        System.out.println("\n"+deck.getTopcard());
+        player.fillHand(deck, enemy);
+        System.out.println();
         player.see();
-        enemy.fillHand(deck);
-        System.out.println("\n"+deck.getTopcard());
+        System.out.println();
         enemy.see();
+        System.out.println("\n"+deck.seeTopcard());
+
     }
 }

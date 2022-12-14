@@ -54,20 +54,19 @@ public class Deck {
             deck[i]=temp;
         }
     }//choose swap decrement
-    public void cut(int a){
+    public void cut(int cutLocation){
         Card[] tempdeck = new Card[52];
-        int j=0;    // a variable to store where we last are
-        for(int i=a; i< deck.length;i++ ){
-            tempdeck[j]=deck[i];j++;//take 52-a cards move them to front
+        int j=0;    // cutlocation variable to store where we last are
+        for(int i=cutLocation; i< deck.length;i++ ){
+            tempdeck[j]=deck[i];j++;//take 52-cutlocation cards move them to front
         }
-        for(int i=0;i<a;i++){
+        for(int i=0;i<cutLocation;i++){
             tempdeck[j]=deck[i];j++;//insert the remaining cards to where we left off
         }
         System.arraycopy(tempdeck, 0, deck, 0, deck.length); //arraycopy
     }
-    public void addToTopCard(int a){
-        topcard += a;
-    }
+    public void addToTopCard(int add){topcard = topcard + add;}
     public int getTopcard(){return topcard;}
-    public Card getCard(int a){return deck[a];}
+    public Card getCard(int index){return deck[index];}
+    public String seeTopcard(){return deck[topcard].getCard();}
 }

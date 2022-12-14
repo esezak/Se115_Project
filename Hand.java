@@ -3,13 +3,19 @@ public class Hand {
     public void see(){
         for(int i=0; i< hand.length;i++){
             Card temp = new Card();
-            hand[i]= temp;
-            System.out.print(temp.getNumber()+temp.getSymbol()+",");
+            //hand[i]= temp;
+            temp = hand[i];
+            System.out.print(temp.getCard()+",");
         }
     }
-    public void fillHand(Deck deck){
+    public void setHand(int pos, Card newCard){
+        hand[pos] = newCard;
+    }
+    public void fillHand(Deck deck, Hand dealer){
         for(int i=0; i< hand.length;i++){
-            hand[i]=deck.getCard(i+ deck.getTopcard());
+            hand[i] =deck.getCard(i + deck.getTopcard());
+            deck.addToTopCard(1);
+            dealer.setHand(i, deck.getCard(i+deck.getTopcard()));
         }
         deck.addToTopCard(4);
     }
