@@ -6,6 +6,7 @@ public class main {
         Deck deck = new Deck();
         Hand player = new Hand();
         Hand enemy = new Hand();
+        Board board = new Board();
         deck.create();
         deck.see();
         deck.shuffle();
@@ -19,7 +20,10 @@ public class main {
         player.see();
         System.out.println();
         enemy.see();
-        System.out.println("\n"+deck.seeTopcard());
-
+        System.out.println("\n"+deck.seeTopcard()+"\n");
+        board.startBoard(deck);
+        board.seeBoard();
+        System.out.println("\n"+deck.seeTopcard()+"\n");
+        deck.see();
     }
 }
