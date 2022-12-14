@@ -21,6 +21,9 @@ public class Hand {
         }
         deck.addToTopCard(4);
     }
+    public Card getCard(int index){
+        return hand[index];
+    }
     public void removeCard(int index){
         Card temp = new Card();
         temp.setNumber(0);
