@@ -90,7 +90,7 @@ public class main {
             System.out.println("Player point: "+player.getPoint());
             /**/
             /*-------------------Enemy Turn----------------------------*/
-            System.out.print("Enemy Board: ");
+            System.out.print("\nEnemy Board: ");
             enemy.see();System.out.println();
             enemyIndex = aiPlay(board,enemy);
             System.out.println("Enemy index  : "+ enemyIndex);
@@ -113,7 +113,7 @@ public class main {
                 player.fillHand(deck, enemy);
             }
         }/*--------------------turn loop end-----------------------*/
-
+        sc.close();
     //calculate points
 
     //Check who won

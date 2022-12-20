@@ -1,5 +1,3 @@
-import java.util.Scanner;
-import java.util.InputMismatchException;
 public class Hand {
     private Card[] hand = new Card[4];
     private int point;
