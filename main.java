@@ -95,7 +95,13 @@ public class main {
             enemyIndex = aiPlay(board,enemy);
             System.out.println("Enemy index  : "+ enemyIndex);
             enemyNum= enemy.selectedCardNum(enemyIndex);
+            if(enemy.getCard(enemyIndex).getNumber()==board.getTopCardNum()){//fix it
+                playCard(enemyIndex, enemy, board);
+                enemy.addToPoint(board.getTopindex());
+                board.flushBoard();
+            }else{
 
+            }
             //Note to self: write if the enemy takes the cards
 
 
