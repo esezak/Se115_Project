@@ -90,7 +90,10 @@ public class main {
             System.out.println("Player point: "+player.getPoint());
             /**/
             /*-------------------Enemy Turn----------------------------*/
+            System.out.print("Enemy Board: ");
+            enemy.see();System.out.println();
             enemyIndex = aiPlay(board,enemy);
+            System.out.println("Enemy index  : "+ enemyIndex);
             enemyNum= enemy.selectedCardNum(enemyIndex);
 
             //Note to self: write if the enemy takes the cards
@@ -138,7 +141,7 @@ Returns the index value of the card
         Random r = new Random(); boolean hasjack = false; int jacki=0;
         for(int i=0;i<4;i++){
             if(hand.selectedCardNum(i)==board.getTopCardNum()){ // if top card is at hand play it
-                return hand.selectedCardNum(i);
+                return i;
             }if(hand.selectedCardNum(i)==11 && board.getTopCardNum()!=0){ //if board empty do not play jack
                 hasjack = true;
                 jacki = i;
