@@ -102,11 +102,6 @@ public class main {
             }else{
 
             }
-            //Note to self: write if the enemy takes the cards
-
-
-
-
             /*------------------TO-DO------------------------*/
             //check if the player takes the cards or is there a pişti
 
@@ -117,7 +112,7 @@ public class main {
             if(turnkeeper==4){
                 turnkeeper=0;
                 player.fillHand(deck, enemy);
-            }
+            }   
         }/*--------------------turn loop end-----------------------*/
         sc.close();
     //calculate points
