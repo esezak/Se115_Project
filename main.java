@@ -7,7 +7,7 @@ public class main {
         hand.removeCard(index);
     }
     public static boolean isPisti(Board board){
-        if(board.getTopindex()==1){
+        if(board.countCard()==1){
             return true;
         }
         return false;
@@ -93,16 +93,20 @@ public class main {
             //----------------------------Check if player takes cards--------------------------
 
             if(board.getTopCardNum()==playerNum || playerNum==11){    //check for equal number or jack
-                if(isPisti(board)&&board.getTopCardNum()==11){
+                if(isPisti(board)&&board.getTopCardNum()==11&&playerNum==11){
+                    System.out.println("Pişti x2!");
+                    playCard(Integer.parseInt(input) - 1, player, board);
                     player.addToPoint(20);
                     pcardnum +=2;
-                }else if(isPisti(board)){
+                }else if(isPisti(board)&&board.getTopCardNum()==playerNum){
+                    System.out.println("Pişti!");
+                    playCard(Integer.parseInt(input) - 1, player, board);
                     player.addToPoint(10);
                     pcardnum +=2;
                 }else{
                     playCard(Integer.parseInt(input) - 1, player, board); // place card
                     player.addToPoint(board.getTopindex());            //add to player score
-                    pcardnum += board.getTopindex();
+                    pcardnum += board.countCard();
                     board.flushBoard();
                 }
                 lastpickup =true;                                  //reset board
@@ -120,33 +124,42 @@ public class main {
             System.out.println("Enemy index  : "+ enemyIndex);
             System.out.println("Enemy played: "+enemy.getCard(enemyIndex).getCard());
             //----------------/Debug end----------------
+
             enemyNum= enemy.selectedCardNum(enemyIndex);
             if(enemyNum==board.getTopCardNum()||enemyNum==11){
-                playCard(enemyIndex, enemy, board);
-                enemy.addToPoint(board.getTopindex());
-                board.flushBoard();
+                if(isPisti(board)&&board.getTopCardNum()==11&&enemyNum==11){
+                    playCard(enemyIndex, enemy, board);
+                    enemy.addToPoint(20);
+                    ecardnum +=2;
+                }else if(isPisti(board)&&board.getTopCardNum()==enemyNum){
+                    playCard(enemyIndex, enemy, board);
+                    enemy.addToPoint(10);
+                    ecardnum +=2;
+                }else{
+                    playCard(enemyIndex, enemy, board); // place card
+                    enemy.addToPoint(board.getTopindex());            //add to player score
+                    ecardnum += board.countCard();
+                    board.flushBoard();
+                }
                 lastpickup = false;
             }else{
                 playCard(enemyIndex, enemy, board);
             }
 
-            /*------------------TO-DO------------------------*/
-            //check if the player takes the cards or is there a pişti
-            
-            //computer plays a card
-            
-            //check if the computer takes the cars or is there a pişti
             turnkeeper++;
             if(turnkeeper==4){
                 turnkeeper=0;
                 player.fillHand(deck, enemy);
             }   
+
+
             System.out.println("Player point: "+player.getPoint());
             System.out.println("Enemy point: "+enemy.getPoint());
             System.out.println();
 
 
         }/*--------------------turn loop end-----------------------*/
+
         sc.close();
         //remaining cards will go to:
         if(lastpickup){
@@ -154,9 +167,15 @@ public class main {
         }else{
             enemy.addToPoint(board.getTopindex());
         }
+        /*-----------------Most Card reward------------------------*/
+        if(pcardnum>ecardnum){player.addToPoint(3);}
+        else if(ecardnum>pcardnum){enemy.addToPoint(3);}
+        /*-----------------Final Scores----------------------------*/
         System.out.println("-Final Scores-");
-        System.out.println("You: "+player.getPoint());
-        System.out.println("Enemy: "+ enemy.getPoint());
+        System.out.println("You scored: "+player.getPoint());
+        System.out.println("With "+pcardnum+" cards");
+        System.out.println("Enemy scored: "+ enemy.getPoint());
+        System.out.println("With "+ecardnum+" cards");
         if(player.getPoint()>enemy.getPoint()){
             System.out.println("You Win!");
         }else{
