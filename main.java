@@ -24,6 +24,7 @@ public class main {
         boolean okInput = true;// boolean to verify if a user input is verified
         int turnkeeper =0;//to keep track of which turn we are (to deal new cards)
         final String error ="Entered a faulty input try again ";
+        boolean lastpickup=true;
 
         /*-------------Classes and variables end---------------*/
 
@@ -74,7 +75,8 @@ public class main {
                         if(board.getTopCardNum()==playerNum || playerNum==11){    //check for equal number or jack
                             player.addToPoint(board.getTopindex()+1);            //add to player score
                             playCard(Integer.parseInt(input) - 1, player, board); // place card
-                            board.flushBoard();                                  //reset board
+                            board.flushBoard();
+                            lastpickup =true;                                  //reset board
                         }else{
                             playCard(Integer.parseInt(input) - 1, player, board); //if different place card
                         }
@@ -87,34 +89,63 @@ public class main {
                     System.out.print(error+" (1-4): ");
                 }
             }okInput = true;//  End of player input
-            System.out.println("Player point: "+player.getPoint());
+            
             /**/
             /*-------------------Enemy Turn----------------------------*/
-            System.out.print("\nEnemy Board: ");
+            //-----------------Debug----------------------
+            System.out.print("\nEnemy Hand: ");
             enemy.see();System.out.println();
             enemyIndex = aiPlay(board,enemy);
             System.out.println("Enemy index  : "+ enemyIndex);
+            System.out.println("Enemy played: "+enemy.getCard(enemyIndex).getCard());
+            //----------------/Debug end----------------
             enemyNum= enemy.selectedCardNum(enemyIndex);
-            if(enemy.getCard(enemyIndex).getNumber()==board.getTopCardNum()){//fix it
+            if(enemyNum==board.getTopCardNum()||enemyNum==11){
                 playCard(enemyIndex, enemy, board);
                 enemy.addToPoint(board.getTopindex());
                 board.flushBoard();
+                lastpickup = false;
             }else{
-
+                playCard(enemyIndex, enemy, board);
             }
+
             /*------------------TO-DO------------------------*/
             //check if the player takes the cards or is there a pişti
-
+            
             //computer plays a card
-
+            
             //check if the computer takes the cars or is there a pişti
             turnkeeper++;
             if(turnkeeper==4){
                 turnkeeper=0;
                 player.fillHand(deck, enemy);
             }   
+            System.out.println("Player point: "+player.getPoint());
+            System.out.println("Enemy point: "+enemy.getPoint());
+            System.out.println();
+
+
         }/*--------------------turn loop end-----------------------*/
         sc.close();
+        //remaining cards will go to:
+        if(lastpickup){
+            player.addToPoint(board.getTopindex());
+        }else{
+            enemy.addToPoint(board.getTopindex());
+        }
+        System.out.println("-Final Scores-");
+        System.out.println("You: "+player.getPoint());
+        System.out.println("Enemy: "+ enemy.getPoint());
+        if(player.getPoint()>enemy.getPoint()){
+            System.out.println("You Win!");
+        }else{
+            System.out.println("You lost!");
+        }
+
+
+
+
+
     //calculate points
 
     //Check who won
@@ -141,9 +172,10 @@ Returns the index value of the card
     public static int aiPlay(Board board, Hand hand){ // returns the index of selection
         Random r = new Random(); boolean hasjack = false; int jacki=0;
         for(int i=0;i<4;i++){
-            if(hand.selectedCardNum(i)==board.getTopCardNum()){ // if top card is at hand play it
+            if(hand.selectedCardNum(i)==board.getTopCardNum()&& hand.selectedCardNum(i)!=0){ // if top card is at hand play it
                 return i;
             }if(hand.selectedCardNum(i)==11 && board.getTopCardNum()!=0){ //if board empty do not play jack
+                System.out.println("It's here");
                 hasjack = true;
                 jacki = i;
             }
