@@ -6,6 +6,12 @@ public class main {
         board.addToBoard(hand.getCard(index));
         hand.removeCard(index);
     }
+    public static boolean isPisti(Board board){
+        if(board.getTopindex()==1){
+            return true;
+        }
+        return false;
+    }
     /*--------------------------------------------------------------*/
     /*---------------------Start of the game------------------------*/
     public static void main(String[] args){
@@ -17,8 +23,10 @@ public class main {
         Hand enemy = new Hand();
         Board board = new Board();
         Scanner sc = new Scanner(System.in);
-        String input;
-        int playerNum;  // last cards number selected by player
+        String input="";
+        int playerNum=0;  // last cards number selected by player
+        int pcardnum=0;     // variables to store the number of cards
+        int ecardnum=0;
         int enemyNum=0;   // last cards number selected by enemy
         int enemyIndex;   //selected index of card (basically enemy input)
         boolean okInput = true;// boolean to verify if a user input is verified
@@ -72,14 +80,6 @@ public class main {
                     //check if selected place at hand is empty
                     if(!player.getCard(Integer.parseInt(input)-1).getCard().equals("00")) {
                         playerNum = player.selectedCardNum(Integer.parseInt(input)-1);
-                        if(board.getTopCardNum()==playerNum || playerNum==11){    //check for equal number or jack
-                            player.addToPoint(board.getTopindex()+1);            //add to player score
-                            playCard(Integer.parseInt(input) - 1, player, board); // place card
-                            board.flushBoard();
-                            lastpickup =true;                                  //reset board
-                        }else{
-                            playCard(Integer.parseInt(input) - 1, player, board); //if different place card
-                        }
                         okInput = false;
                     }
                     else{
@@ -89,8 +89,29 @@ public class main {
                     System.out.print(error+" (1-4): ");
                 }
             }okInput = true;//  End of player input
+
+            //----------------------------Check if player takes cards--------------------------
+
+            if(board.getTopCardNum()==playerNum || playerNum==11){    //check for equal number or jack
+                if(isPisti(board)&&board.getTopCardNum()==11){
+                    player.addToPoint(20);
+                    pcardnum +=2;
+                }else if(isPisti(board)){
+                    player.addToPoint(10);
+                    pcardnum +=2;
+                }else{
+                    playCard(Integer.parseInt(input) - 1, player, board); // place card
+                    player.addToPoint(board.getTopindex());            //add to player score
+                    pcardnum += board.getTopindex();
+                    board.flushBoard();
+                }
+                lastpickup =true;                                  //reset board
+            }else{
+                playCard(Integer.parseInt(input) - 1, player, board); //if different place card
+            }
+
+      
             
-            /**/
             /*-------------------Enemy Turn----------------------------*/
             //-----------------Debug----------------------
             System.out.print("\nEnemy Hand: ");
