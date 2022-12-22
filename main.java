@@ -20,6 +20,7 @@ public class main {
         Hand enemy = new Hand();
         Board board = new Board();
         Scanner sc = new Scanner(System.in);
+        HiScoreTracker scoreTracker = new HiScoreTracker();
         String input="";
         int playerNum=0;  // last cards number selected by player
         int enemyNum;   // last cards number selected by enemy
