@@ -5,7 +5,7 @@ public class Board {
     public void startBoard(Deck deck){
         Card empty = new Card();
         point =0;
-        for(int i=0;i<5;i++) {
+        for(int i=0;i<4;i++) {
             Card temp = new Card();
             temp = deck.getCard(deck.getTopcard());
             board[i]=temp;
@@ -18,7 +18,7 @@ public class Board {
         for(int i=4;i< board.length;i++){
             board[i]=empty;
         }
-        deck.addToTopCard(-1);
+        //deck.addToTopCard(-1);
         topindex=3;
     }
     public void seeBoard(){

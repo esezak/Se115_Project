@@ -2,15 +2,12 @@ import java.util.Random;
 import java.util.Scanner;
 public class main {
     /*---------------------Static functions-------------------------*/
-    public static void playCard(int index, Hand hand,Board board){
+    public static void playCard(int index, Hand hand,Board board){// function for playing cards
         board.addToBoard(hand.getCard(index));
         hand.removeCard(index);
     }
-    public static boolean isPisti(Board board){
-        if(board.countCard()==1){
-            return true;
-        }
-        return false;
+    public static boolean isPisti(Board board){//
+        return board.countCard() == 1;
     }
     /*--------------------------------------------------------------*/
     /*---------------------Start of the game------------------------*/
@@ -25,10 +22,10 @@ public class main {
         Scanner sc = new Scanner(System.in);
         String input="";
         int playerNum=0;  // last cards number selected by player
-        int pcardnum=0;     // variables to store the number of cards
-        int ecardnum=0;
-        int enemyNum=0;   // last cards number selected by enemy
-        int enemyIndex=0;   //selected index of card (basically enemy input)
+        int enemyNum;   // last cards number selected by enemy
+        int pcardnum=0;     // variable to store the number of cards (player)
+        int ecardnum=0;     // variable to store the number of cards (enemy)
+        int enemyIndex;   //selected index of card (basically enemy input)
         boolean okInput = true;// boolean to verify if a user input is verified
         int turnkeeper =0;//to keep track of which turn we are (to deal new cards)
         final String error ="Entered a faulty input try again ";
@@ -69,7 +66,7 @@ public class main {
         player.fillHand(deck, enemy);               // deal the cards
         board.startBoard(deck);                     // board init
         System.out.println();System.out.println();
-        while(deck.getTopcard()<52){                //loop until cards are finished
+        for(int i=0; i< 24;i++){          //loop until cards are finished
 
             //-----------------Debug----------------------
             System.out.println("----------------DEBUG----------------");
@@ -77,6 +74,7 @@ public class main {
             System.out.println("Board point: "+board.getPoint());
             System.out.println("Board card count: "+board.countCard());
             System.out.println("Board top num: "+board.getTopCardNum());
+            System.out.println("Board topindex: "+ board.getTopindex());
             System.out.println("--------------------------------");
             //----------------/Debug end----------------
 
@@ -105,17 +103,19 @@ public class main {
 
             //----------------------------Check if player takes cards--------------------------
 
-            if(board.getTopCardNum()==playerNum || playerNum==11){    //check for equal number or jack
+            if((board.getTopCardNum()==playerNum || playerNum==11)&&board.getTopindex()!=1){    //check for equal number or jack
                 if(isPisti(board)&&board.getTopCardNum()==11&&playerNum==11){   // check for pisti w jack
                     System.out.println("Pişti x2!");
                     playCard(Integer.parseInt(input) - 1, player, board);
                     player.addToPoint(20);
                     pcardnum +=2;
+                    board.flushBoard();
                 }else if(isPisti(board)&&board.getTopCardNum()==playerNum){     //check for pisti
                     System.out.println("Pişti!");
                     playCard(Integer.parseInt(input) - 1, player, board);
                     player.addToPoint(10);
                     pcardnum +=2;
+                    board.flushBoard();
                 }else{
                     playCard(Integer.parseInt(input) - 1, player, board); // place card
                     player.addToPoint(board.getPoint());              //add to player score
@@ -134,7 +134,7 @@ public class main {
             enemyIndex = aiPlay(board,enemy);   // gets the index of played card
             enemyNum= enemy.selectedCardNum(enemyIndex); //number of selected card
 
-            if(enemyNum==board.getTopCardNum()||enemyNum==11){      //check for equal or jack
+            if((enemyNum==board.getTopCardNum()||enemyNum==11)&&board.getTopindex()!=1){      //check for equal or jack
                 if(isPisti(board)&&board.getTopCardNum()==11&&enemyNum==11){ // pisti w double jack
                     playCard(enemyIndex, enemy, board);
                     enemy.addToPoint(20);
@@ -156,17 +156,19 @@ public class main {
                 playCard(enemyIndex, enemy, board);
             }
             System.out.println("Enemy index  : "+ enemyIndex);
-            System.out.println("Enemy played: "+enemy.getCard(enemyIndex).getCard());
+            System.out.println("Enemy played: "+enemyNum);
 
             turnkeeper++;
-            if(turnkeeper==4){
+            if(turnkeeper==4&&deck.getTopcard()!=52){
                 turnkeeper=0;
                 player.fillHand(deck, enemy);
             }   
 
 
             System.out.println("Player point: "+player.getPoint());
+            System.out.println("Player Card Num: "+pcardnum);
             System.out.println("Enemy point: "+enemy.getPoint());
+            System.out.println("Enemy Card Num: "+ecardnum);
             System.out.println();
 
 
@@ -196,23 +198,16 @@ public class main {
             System.out.println("You lost!");
         }
 
-
-
-
-
-    //calculate points
-
-    //Check who won
-
     //Check the scores on the top 10 list if the player managed to get in the list
 
     //Print the list to player to see
 
     //Game finish
 
-
-
     }/*----------------------End of the Game-----------------------------------*/
+
+
+
 
     /*-----------------------Ai Code Here-------------------------------*/
 /*
