@@ -28,7 +28,7 @@ public class main {
         int pcardnum=0;     // variables to store the number of cards
         int ecardnum=0;
         int enemyNum=0;   // last cards number selected by enemy
-        int enemyIndex;   //selected index of card (basically enemy input)
+        int enemyIndex=0;   //selected index of card (basically enemy input)
         boolean okInput = true;// boolean to verify if a user input is verified
         int turnkeeper =0;//to keep track of which turn we are (to deal new cards)
         final String error ="Entered a faulty input try again ";
@@ -39,10 +39,12 @@ public class main {
 
         /*--------------Environmental setup---------------------*/
         deck.create();
+        System.out.println();
         deck.see();
-        System.out.println(deck.getCard(35).getPoint());//10♦
-        System.out.println(deck.getCard(40).getPoint());//2♣
         deck.shuffle();
+        System.out.println();
+        deck.see();
+
         /*------------------------------------------------------*/
 
         /*---------------------Game Start-----------------------*/
@@ -60,15 +62,23 @@ public class main {
                 System.out.print(error + "(0-52): ");
             }
         }okInput = true;
-        // 10 lines and 3 indents for executing a single function that require user input
-        // I think I am starting to understand why people do not like Java
+        System.out.println();
+        deck.see();
         /*------------------------------------------*/
 
-        player.fillHand(deck, enemy);// deal the cards
-        board.startBoard(deck);
+        player.fillHand(deck, enemy);               // deal the cards
+        board.startBoard(deck);                     // board init
         System.out.println();System.out.println();
+        while(deck.getTopcard()<52){                //loop until cards are finished
 
-        while(deck.getTopcard()<52){//loop until cards are finished
+            //-----------------Debug----------------------
+            System.out.println("----------------DEBUG----------------");
+            System.out.print("Enemy Hand: ");enemy.see();System.out.println();
+            System.out.println("Board point: "+board.getPoint());
+            System.out.println("Board card count: "+board.countCard());
+            System.out.println("Board top num: "+board.getTopCardNum());
+            System.out.println("--------------------------------");
+            //----------------/Debug end----------------
 
             System.out.print("Board: ");
             board.seeBoard();
@@ -82,33 +92,33 @@ public class main {
                     input = sc.nextLine();
                     //check if selected place at hand is empty
                     if(!player.getCard(Integer.parseInt(input)-1).getCard().equals("00")) {
-                        playerNum = player.selectedCardNum(Integer.parseInt(input)-1);
+                        playerNum = player.selectedCardNum(Integer.parseInt(input)-1); // validation of user input
                         okInput = false;
                     }
                     else{
-                        System.out.print("This spot is empty try again: ");
+                        System.out.print("\nThis spot is empty try again: ");
                     }
                 } catch (Exception e) {
-                    System.out.print(error+" (1-4): ");
+                    System.out.print("\n"+error+" (1-4): ");
                 }
-            }okInput = true;//  End of player input
+            }okInput = true;    //  End of player input
 
             //----------------------------Check if player takes cards--------------------------
 
             if(board.getTopCardNum()==playerNum || playerNum==11){    //check for equal number or jack
-                if(isPisti(board)&&board.getTopCardNum()==11&&playerNum==11){
+                if(isPisti(board)&&board.getTopCardNum()==11&&playerNum==11){   // check for pisti w jack
                     System.out.println("Pişti x2!");
                     playCard(Integer.parseInt(input) - 1, player, board);
                     player.addToPoint(20);
                     pcardnum +=2;
-                }else if(isPisti(board)&&board.getTopCardNum()==playerNum){
+                }else if(isPisti(board)&&board.getTopCardNum()==playerNum){     //check for pisti
                     System.out.println("Pişti!");
                     playCard(Integer.parseInt(input) - 1, player, board);
                     player.addToPoint(10);
                     pcardnum +=2;
                 }else{
                     playCard(Integer.parseInt(input) - 1, player, board); // place card
-                    player.addToPoint(board.getTopindex());            //add to player score
+                    player.addToPoint(board.getPoint());              //add to player score
                     pcardnum += board.countCard();
                     board.flushBoard();
                 }
@@ -120,27 +130,24 @@ public class main {
       
             
             /*-------------------Enemy Turn----------------------------*/
-            //-----------------Debug----------------------
-            System.out.print("\nEnemy Hand: ");
-            enemy.see();System.out.println();
-            enemyIndex = aiPlay(board,enemy);
-            System.out.println("Enemy index  : "+ enemyIndex);
-            System.out.println("Enemy played: "+enemy.getCard(enemyIndex).getCard());
-            //----------------/Debug end----------------
 
-            enemyNum= enemy.selectedCardNum(enemyIndex);
-            if(enemyNum==board.getTopCardNum()||enemyNum==11){
-                if(isPisti(board)&&board.getTopCardNum()==11&&enemyNum==11){
+            enemyIndex = aiPlay(board,enemy);   // gets the index of played card
+            enemyNum= enemy.selectedCardNum(enemyIndex); //number of selected card
+
+            if(enemyNum==board.getTopCardNum()||enemyNum==11){      //check for equal or jack
+                if(isPisti(board)&&board.getTopCardNum()==11&&enemyNum==11){ // pisti w double jack
                     playCard(enemyIndex, enemy, board);
                     enemy.addToPoint(20);
+                    board.flushBoard();
                     ecardnum +=2;
-                }else if(isPisti(board)&&board.getTopCardNum()==enemyNum){
+                }else if(isPisti(board)&&board.getTopCardNum()==enemyNum){ // check pisti 
                     playCard(enemyIndex, enemy, board);
+                    board.flushBoard();
                     enemy.addToPoint(10);
                     ecardnum +=2;
                 }else{
-                    playCard(enemyIndex, enemy, board); // place card
-                    enemy.addToPoint(board.getTopindex());            //add to player score
+                    playCard(enemyIndex, enemy, board);                 // place card
+                    enemy.addToPoint(board.getPoint());            //add to player score
                     ecardnum += board.countCard();
                     board.flushBoard();
                 }
@@ -148,6 +155,8 @@ public class main {
             }else{
                 playCard(enemyIndex, enemy, board);
             }
+            System.out.println("Enemy index  : "+ enemyIndex);
+            System.out.println("Enemy played: "+enemy.getCard(enemyIndex).getCard());
 
             turnkeeper++;
             if(turnkeeper==4){
@@ -161,14 +170,16 @@ public class main {
             System.out.println();
 
 
-        }/*--------------------turn loop end-----------------------*/
+        }   /*--------------------turn loop end-----------------------*/
 
         sc.close();
         //remaining cards will go to:
         if(lastpickup){
-            player.addToPoint(board.getTopindex());
+            player.addToPoint(board.getPoint());
+            pcardnum += board.countCard();
         }else{
-            enemy.addToPoint(board.getTopindex());
+            enemy.addToPoint(board.getPoint());
+            ecardnum += board.countCard();
         }
         /*-----------------Most Card reward------------------------*/
         if(pcardnum>ecardnum){player.addToPoint(3);}

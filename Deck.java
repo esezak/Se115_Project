@@ -44,17 +44,17 @@ public class Deck {
                 temp.setPoint(1);
                 deck[i]=temp;
             }
-            Card temp2 = new Card();
-            temp2.setNumber(10);
-            temp2.setSymbol("♦");
-            temp2.setPoint(3);
-            deck[35]=temp2;
-            Card temp3 = new Card();
-            temp3.setNumber(2);
-            temp3.setSymbol("♣");
-            temp3.setPoint(2);
-            deck[40]=temp3;
         }
+        Card temp2 = new Card();
+        temp2.setNumber(10);
+        temp2.setSymbol("♦");
+        temp2.setPoint(3);
+        deck[35]=temp2;
+        Card temp3 = new Card();
+        temp3.setNumber(2);
+        temp3.setSymbol("♣");
+        temp3.setPoint(2);
+        deck[40]=temp3;
         
         //deck[35].setPoint(3);
         //deck[40].setPoint(2);
