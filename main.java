@@ -39,6 +39,9 @@ public class main {
 
         /*--------------Environmental setup---------------------*/
         deck.create();
+        deck.see();
+        System.out.println(deck.getCard(35).getPoint());//10♦
+        System.out.println(deck.getCard(40).getPoint());//2♣
         deck.shuffle();
         /*------------------------------------------------------*/
 

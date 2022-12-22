@@ -2,6 +2,9 @@
 public class Card {
     private int number;
     private String symbol;
+    private int point;
+    public void setPoint(int a){point=a;}
+    public int getPoint(){return point;}
     public void setNumber(int a){number=a;}
     public void setSymbol(String a){symbol=a;}
     public int getNumber(){return number;}
