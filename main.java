@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.Scanner;
+import java.nio.file.Paths;
 public class main {
     /*---------------------Static functions-------------------------*/
     public static void playCard(int index, Hand hand,Board board){// function for playing cards
@@ -20,7 +21,6 @@ public class main {
         Hand enemy = new Hand();
         Board board = new Board();
         Scanner sc = new Scanner(System.in);
-        HiScoreTracker scoreTracker = new HiScoreTracker();
         String input="";
         int playerNum=0;  // last cards number selected by player
         int enemyNum;   // last cards number selected by enemy
@@ -69,7 +69,7 @@ public class main {
         System.out.println();System.out.println();
         for(int i=0; i< 24;i++){          //loop until cards are finished
 
-            //-----------------Debug----------------------
+            /*-----------------Debug----------------------
             System.out.println("----------------DEBUG----------------");
             System.out.print("Enemy Hand: ");enemy.see();System.out.println();
             System.out.println("Board point: "+board.getPoint());
@@ -77,7 +77,7 @@ public class main {
             System.out.println("Board top num: "+board.getTopCardNum());
             System.out.println("Board topindex: "+ board.getTopindex());
             System.out.println("--------------------------------");
-            //----------------/Debug end----------------
+            //----------------/Debug end----------------*/
 
             System.out.print("Board: ");
             board.seeBoard();
@@ -198,6 +198,29 @@ public class main {
         }else{
             System.out.println("You lost!");
         }
+
+        /*
+        try {
+            Scanner reader = new Scanner(Paths.get("scores.txt"));
+            String[] names = new String[10];
+            int[] scores = new int[10];
+        }catch(Exception e){
+
+        }finally{
+            if(reader != null){
+                reader.close();
+            }
+        }
+
+         */
+
+
+
+
+
+
+
+
 
     //Check the scores on the top 10 list if the player managed to get in the list
 
