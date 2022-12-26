@@ -1,4 +1,3 @@
-import java.io.File;
 import java.util.Scanner;
 import java.nio.file.Paths;
 import java.util.Formatter;
@@ -34,8 +33,8 @@ public class Filetest {
                 String[] info = reader.nextLine().split(",");
                 names[counter] = info[0].trim();
                 scores[counter] = info[1].trim();
+                counter++;
             }
-
         } catch (Exception e) {
             System.out.println("It seems this is the first time playing.");
         } finally {
@@ -61,26 +60,22 @@ public class Filetest {
                 break;
             }
         }
-        //----------------delete file--------------
-        try{
-            writer = new FileWriter("scores.txt", false);
-        }catch(Exception e){
-            System.out.println("Err");
-        }
 
 
         //------------------write file -------------
 
         try {
+            writer = new FileWriter("scores.txt", false);
             for(int i=0; i< 10;i++){
-                writer = new FileWriter("scores.txt", true);
                 formatter = new Formatter(writer);
                 if(scores[i]!=null) {
-                    formatter.format("%s, %s\n", names[i], scores[i]);
+                    formatter.format("%s,%s\n", names[i], scores[i]);
                 }
             }
             } catch (Exception e) {
                 System.out.println("Something went wrong.");
+        }finally{
+            formatter.close();
         }
 
 
