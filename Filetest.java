@@ -63,7 +63,6 @@ public class Filetest {
 
 
         //------------------write file -------------
-
         try {
             writer = new FileWriter("scores.txt", false);
             for(int i=0; i< 10;i++){

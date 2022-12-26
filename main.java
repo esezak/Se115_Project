@@ -1,6 +1,8 @@
 import java.util.Random;
 import java.util.Scanner;
 import java.nio.file.Paths;
+import java.util.Formatter;
+import java.io.FileWriter;
 public class main {
     /*---------------------Static functions-------------------------*/
     public static void playCard(int index, Hand hand,Board board){// function for playing cards
@@ -37,11 +39,11 @@ public class main {
 
         /*--------------Environmental setup---------------------*/
         deck.create();
-        System.out.println();
-        deck.see();
+        //System.out.println();
+        //deck.see();
         deck.shuffle();
-        System.out.println();
-        deck.see();
+        //System.out.println();
+        //deck.see();
 
         /*------------------------------------------------------*/
 
@@ -53,6 +55,7 @@ public class main {
         /*----------------Cut deck-----------------*/
         while(okInput) {
             try {
+                sc = new Scanner(System.in);
                 input = sc.nextLine();
                 deck.cut(Integer.parseInt(input));
                 okInput = false;
@@ -61,13 +64,13 @@ public class main {
             }
         }okInput = true;
         System.out.println();
-        deck.see();
+        //deck.see();
         /*------------------------------------------*/
-
+        System.out.println("Dealing Cards");
         player.fillHand(deck, enemy);               // deal the cards
         board.startBoard(deck);                     // board init
         System.out.println();System.out.println();
-        for(int i=0; i< 24;i++){          //loop until cards are finished
+        for(int i=0; i< 24;i++){          //loop until cards are finished (52-4)/2 number of turns
 
             /*-----------------Debug----------------------
             System.out.println("----------------DEBUG----------------");
@@ -82,12 +85,13 @@ public class main {
             System.out.print("Board: ");
             board.seeBoard();
             System.out.println("\nChoose a card to play 1 to 4:");
-            player.see();System.out.println();
+            player.see();//System.out.println();
 
 
             /*--------------------------------Player turn-----------------------------*/
             while(okInput) {//place card on board
                 try {
+                    sc = new Scanner(System.in);
                     input = sc.nextLine();
                     //check if selected place at hand is empty
                     if(!player.getCard(Integer.parseInt(input)-1).getCard().equals("00")) {
@@ -134,7 +138,7 @@ public class main {
 
             enemyIndex = aiPlay(board,enemy);   // gets the index of played card
             enemyNum= enemy.selectedCardNum(enemyIndex); //number of selected card
-
+            String played = enemy.getCard(enemyIndex).getCard(); //card played as string Ex: 9♣
             if((enemyNum==board.getTopCardNum()||enemyNum==11)&&board.getTopindex()!=1){      //check for equal or jack
                 if(isPisti(board)&&board.getTopCardNum()==11&&enemyNum==11){ // pisti w double jack
                     playCard(enemyIndex, enemy, board);
@@ -157,7 +161,7 @@ public class main {
                 playCard(enemyIndex, enemy, board);
             }
             System.out.println("Enemy index  : "+ enemyIndex);
-            System.out.println("Enemy played: "+enemyNum);
+            System.out.println("Enemy played: "+played);
 
             turnkeeper++;
             if(turnkeeper==4&&deck.getTopcard()!=52){
@@ -167,15 +171,14 @@ public class main {
 
 
             System.out.println("Player point: "+player.getPoint());
-            System.out.println("Player Card Num: "+pcardnum);
+            //System.out.println("Player Card Num: "+pcardnum);
             System.out.println("Enemy point: "+enemy.getPoint());
-            System.out.println("Enemy Card Num: "+ecardnum);
+            //System.out.println("Enemy Card Num: "+ecardnum);
             System.out.println();
 
 
         }   /*--------------------turn loop end-----------------------*/
 
-        sc.close();
         //remaining cards will go to:
         if(lastpickup){
             player.addToPoint(board.getPoint());
@@ -199,32 +202,92 @@ public class main {
             System.out.println("You lost!");
         }
 
-        /*
-        try {
-            Scanner reader = new Scanner(Paths.get("scores.txt"));
-            String[] names = new String[10];
-            int[] scores = new int[10];
-        }catch(Exception e){
+        Scanner reader = null;
+        Formatter formatter = null;
+        FileWriter writer = null;
+        String[] names = new String[11];
+        String[] scores = new String[11];
 
-        }finally{
-            if(reader != null){
+        //-------------get name------------------
+        try {
+            sc = new Scanner(System.in);
+            System.out.print("Enter name: ");
+            input = sc.nextLine();
+        } catch (Exception e) {
+            System.out.println("Error");
+        } finally {
+            if (sc != null) {
+                sc.close();
+            }
+        }
+        //---------------------read file / save file-----------------
+        try {
+            reader = new Scanner(Paths.get("scores.txt"));
+            int counter = 0;
+            while (reader.hasNextLine()) {
+                String[] info = reader.nextLine().split(",");
+                names[counter] = info[0].trim();
+                scores[counter] = info[1].trim();
+                counter++;
+            }
+        } catch (Exception e) {
+            System.out.println("It seems this is the first time playing.");
+        } finally {
+            if (reader != null) {
                 reader.close();
             }
         }
+        String point = String.valueOf(player.getPoint());
 
-         */
+        //------------------compare values and relist------------------
+        for (int i = 0; i < names.length; i++) {
+            if (scores[i] != null) {
+                if (Integer.parseInt(scores[i]) < player.getPoint()) {
+                    for (int j = names.length - 1; j > i; j--) {//make place for new value
+                        names[j] = names[j - 1];
+                        scores[j] = scores[j - 1];
+                    }
+                    names[i] = input;// add values
+                    scores[i] = point;
+                    break;
+                }
+            } else if (scores[i] == null) {// if empty add the value
+                scores[i] = point;
+                names[i] = input;
+                break;
+            }
+        }
+
+        //------------------write file -------------
+        try {
+            writer = new FileWriter("scores.txt", false);
+            for(int i=0; i< 10;i++){
+                formatter = new Formatter(writer);
+                if(scores[i]!=null) {
+                    formatter.format("%s,%s\n", names[i], scores[i]);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong.");
+        }finally{
+            if(formatter!=null)
+                formatter.close();
+        }
+
+        //-------------Display Score list------------------
+        for (int i = 0; i < names.length-1; i++) {
+            if (names[i] == null) {
+                System.out.println("Name: empty   Score: empty");
+            } else {
+                System.out.println((i+1)+"# Name: " + names[i] + "   Score: " + scores[i]);
+            }
+        }
 
 
 
 
 
 
-
-
-
-    //Check the scores on the top 10 list if the player managed to get in the list
-
-    //Print the list to player to see
 
     //Game finish
 
@@ -248,7 +311,6 @@ Returns the index value of the card
             if(hand.selectedCardNum(i)==board.getTopCardNum()&& hand.selectedCardNum(i)!=0){ // if top card is at hand play it
                 return i;
             }if(hand.selectedCardNum(i)==11 && board.getTopCardNum()!=0){ //if board empty do not play jack
-                System.out.println("It's here");
                 hasjack = true;
                 jacki = i;
             }
