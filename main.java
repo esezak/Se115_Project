@@ -39,12 +39,9 @@ public class main {
 
         /*--------------Environmental setup---------------------*/
         deck.create();
-        //System.out.println();
         //deck.see();
         deck.shuffle();
-        //System.out.println();
         //deck.see();
-
         /*------------------------------------------------------*/
 
         /*---------------------Game Start-----------------------*/
@@ -66,6 +63,7 @@ public class main {
         System.out.println();
         //deck.see();
         /*------------------------------------------*/
+        
         System.out.println("Dealing Cards");
         player.fillHand(deck, enemy);               // deal the cards
         board.startBoard(deck);                     // board init
@@ -160,16 +158,16 @@ public class main {
             }else{
                 playCard(enemyIndex, enemy, board);
             }
-            System.out.println("Enemy index  : "+ enemyIndex);
-            System.out.println("Enemy played: "+played);
+            //System.out.println("Enemy index  : "+ enemyIndex);
+
 
             turnkeeper++;
             if(turnkeeper==4&&deck.getTopcard()!=52){
                 turnkeeper=0;
                 player.fillHand(deck, enemy);
-            }   
-
-
+            }
+            System.out.println();
+            System.out.println("Enemy played: "+played);
             System.out.println("Player point: "+player.getPoint());
             //System.out.println("Player Card Num: "+pcardnum);
             System.out.println("Enemy point: "+enemy.getPoint());
@@ -275,19 +273,15 @@ public class main {
         }
 
         //-------------Display Score list------------------
+        System.out.println();
+        System.out.println("----------Hi Scores----------");
         for (int i = 0; i < names.length-1; i++) {
             if (names[i] == null) {
-                System.out.println("Name: empty   Score: empty");
+                System.out.println((i+1)+"# Name:        Score:      ");
             } else {
                 System.out.println((i+1)+"# Name: " + names[i] + "   Score: " + scores[i]);
             }
         }
-
-
-
-
-
-
 
     //Game finish
 

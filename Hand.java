@@ -6,7 +6,7 @@ public class Hand {
             Card temp = new Card();
             //hand[i]= temp;
             temp = hand[i];
-            System.out.print(temp.getCard()+",");
+            System.out.println("("+(i+1)+") "+temp.getCard());
         }
     }
     public void setHand(int pos, Card newCard){
