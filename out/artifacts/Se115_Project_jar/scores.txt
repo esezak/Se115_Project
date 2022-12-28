@@ -1,8 +1,4 @@
-Ege,45
-asdasd,41
-Test,39
+Egesxdza,68
+Murat,38
 Hasan,36
-Tuna,30
-asd,25
-sdasdasdasdas,15
-wdq,5
+Sarp,25

@@ -1,5 +1,0 @@
-asd,38
-cool,31
-dsf,24
-nogood,5
-Ege,0

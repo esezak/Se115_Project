@@ -46,7 +46,7 @@ public class main {
 
         /*---------------------Game Start-----------------------*/
 
-        System.out.println("Welcome to Pişti! By Ege Sezak 20220601059");
+        System.out.println("Welcome to Pişti!\nBy Ege Sezak 20220601059");
         System.out.print("Select where you want to cut the deck: ");
         
         /*----------------Cut deck-----------------*/
@@ -65,6 +65,7 @@ public class main {
         /*------------------------------------------*/
 
         System.out.println("Dealing Cards");
+        System.out.println("Top card on deck is on the right side -->");
         player.fillHand(deck, enemy);               // deal the cards
         board.startBoard(deck);                     // board init
         System.out.println();System.out.println();
