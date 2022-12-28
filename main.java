@@ -204,8 +204,8 @@ public class main {
         Scanner reader = null;
         Formatter formatter = null;
         FileWriter writer = null;
-        String[] names = new String[11];
-        String[] scores = new String[11];
+        String[] names = new String[10];
+        String[] scores = new String[10];
 
         //-------------get name------------------
         try {
@@ -276,7 +276,7 @@ public class main {
         //-------------Display Score list------------------
         System.out.println();
         System.out.println("----------Hi Scores----------");
-        for (int i = 0; i < names.length-1; i++) {
+        for (int i = 0; i < names.length; i++) {
             if (names[i] == null) {
                 System.out.println((i+1)+"# Name:        Score:      ");
             } else {
