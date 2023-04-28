@@ -15,51 +15,27 @@ public class Deck {
             System.out.print(deck[i].getCard()+", ");//see what is inside the deck
         }
     }//see what is inside the deck (for debug)
-
-    public void create(){//create an unshuffled deck
-        topcard =0;
-        for(int i = 0; i<deck.length;i++){
-            Card temp = new Card(); // temp object for assigning to Card[]
-            if(i<13){//first 13
-                temp.setNumber(i+1);
-                temp.setSymbol("♠");
-                temp.setPoint(1);
-                deck[i]=temp;
-            }
-            else if(i<26){//second 13
-                temp.setNumber((i%13)+1);
-                temp.setSymbol("♥");
-                temp.setPoint(1);
-                deck[i]=temp;
-            }
-            else if(i<39){//third 13
-                temp.setNumber((i%13)+1);
-                temp.setSymbol("♦");
-                temp.setPoint(1);
-                deck[i]=temp;
-            }
-            else{//forth 13
-                temp.setNumber((i%13)+1);
-                temp.setSymbol("♣");
-                temp.setPoint(1);
-                deck[i]=temp;
+    public deck(){
+        create();
+    }
+    public void create(){
+        int[] numbers = {1,2,3,4,5,6,7,8,9,10,11,12,13};
+        String[] symbols = {"♠","♥","♦","♣"};
+        for(String symbol : symbols){
+            for(String number : numbers){
+                deck.add(new Card(number,symbol,1));
             }
         }
         Card temp2 = new Card();
         temp2.setNumber(10);
         temp2.setSymbol("♦");
         temp2.setPoint(3);
-        deck[35]=temp2;
+        deck[35].setPoint(3);//♦10
         Card temp3 = new Card();
         temp3.setNumber(2);
         temp3.setSymbol("♣");
         temp3.setPoint(2);
-        deck[40]=temp3;
-        
-        //deck[35].setPoint(3);
-        //deck[40].setPoint(2);
-
-
+        deck[40].setPoint(2)//♣2
     }//create an unshuffled deck
 
     public void shuffle() {//Fisher-Yates Algorithm (New version)
