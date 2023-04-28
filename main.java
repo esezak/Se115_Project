@@ -38,7 +38,6 @@ public class main {
 
 
         /*--------------Environmental setup---------------------*/
-        deck.create();
         //deck.see();
         deck.shuffle();
         //deck.see();
